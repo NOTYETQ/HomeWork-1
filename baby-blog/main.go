@@ -5,7 +5,16 @@ package main
 import (
 	"log"
 	"net/http"
+        "time"
 )
+
+func loggingMiddleware(next http.Handler) http.Handler {
+        return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+            start:=time.Now()
+            log.Printf("Timestamp: %s, Method: %s, URL: %s", start.Format(time.RFC3339), r.Method, r.URL.Path)
+            next.ServeHTTP(w, r)
+        })
+     }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
         http.ServeFile(w, r, "./templates/home.html") 
@@ -47,7 +56,7 @@ func main() {
         mux.HandleFunc("/week5", week5Handler)
         // Start listening for requests (start the web server)
         log.Println("Starting server on :4000")
-        err := http.ListenAndServe(":4000", mux)
+        err := http.ListenAndServe(":4000", loggingMiddleware(mux))
 	// Log error message if server quits unexpectedly
         if err != nil {
                 log.Fatal(err)
