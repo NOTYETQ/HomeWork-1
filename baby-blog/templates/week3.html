@@ -20,16 +20,57 @@
       </nav>
 
     <h1>Week 3 - Self-Assessment & Git</h1>
-    <p>This week, we had a self-assessment that involved creating a file directory, setting up Git, writing a simple Go program, and pushing it to GitHub.</p>
+    <p>This week, we continued with handlers and went more into depth about how they worked. we also
+    had a self-assessment that involved creating a file directory, setting up Git, 
+    writing a simple Go program and some handlers for our webserver, and pushing it to GitHub.
+    This was done to test everything that we had learned so far in class</p>
     
     <h2>Setting up a Repository</h2>
     <p>We initialized a Git repository, created a simple web server in Go, and pushed it to GitHub.</p>
     
     <pre><code>// Initializing a new Git repository
+package main
+
+    import (
+	"fmt"
+	"log"
+	"net/http"
+)
+
+
+func feature(w http.ResponseWriter, r *http.Request) {
+    w.Write([]byte("HelllllllllOOOOO"))
+
+}
+
+func main() {
+
+	mux :=http.NewServeMux()
+
+	mux.HandleFunc("/", feature)
+
+	err := http.ListenAndServe(":4000", mux)
+
+    log.Fatal(err)
+
+	fmt.Println("Hello World")
+
 $ git init
 $ git add .
 $ git commit -m "Initial commit"
-$ git remote add origin https://github.com/user/repository.git
+$ gti checkout -b intro-feature
+$ git add .
+$ git commit -m "feature"
+$ gti checkout main
+$ gti merge feature
+$ gti branch -d feature
+$ git remote add origin https://github.com/NOTYETQ/go-basics-1.git
 $ git push -u origin main</code></pre>
+
+<p>
+    Above is the simple code we had to create show to what we had learned in class during those weeks.
+    The git commands that were used are also above. I had forgotten about those commands so the assignment
+    was very helpful in making me remember and get used to them again.
+</p>
   </body>
 </html>
