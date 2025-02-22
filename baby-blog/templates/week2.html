@@ -25,21 +25,53 @@
         <h2>Client-Server Communication</h2>
         <p>Web applications rely on request-response cycles where clients send requests to a server, which then processes them and sends responses.</p>
         
-        <pre><code>// Basic HTTP server in Go
-package main
+        <pre><code>//code showing how handlers work
+            package main
 
-import (
-    "fmt"
-    "net/http"
-)
-
-func handler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintln(w, "Hello, world!")
-}
-
-func main() {
-    http.HandleFunc("/", handler)
-    http.ListenAndServe(":8080", nil)
-}</code></pre>
+            import (
+                "log"
+                "net/http"
+            )
+            
+            // a handles function name 'home'
+            func home(w http.ResponseWriter, r *http.Request) {
+                w.Write([]byte("Hello from Flash"))
+            }
+            
+            func info(w http.ResponseWriter, r *http.Request) {
+                w.Write([]byte("Bryan Hernandez"))
+            }
+            
+            func color(w http.ResponseWriter, r *http.Request) {
+                w.Write([]byte("Blue"))
+            }
+            
+            func user(w http.ResponseWriter, r *http.Request) {
+                w.Write([]byte("User Bryan Hernandez"))
+            }
+            
+            
+            func main() {
+            
+                // mux is our router
+                mux := http.NewServeMux()
+                // the route pattern/endpoint/URL path
+                mux.HandleFunc("/", home)
+               
+                mux.Handle("/user", user)
+            
+                mux.HandleFunc("/info", info)
+            
+                mux.HandleFunc("/color", color)
+            
+                log.Print("starting server on :4000")
+            
+                // start a local web server
+                err := http.ListenAndServe(":4000", mux)
+                log.Fatal(err)
+            
+            }</code></pre>
+            <p> In the code above we can see how there are multiple handler functions. In a Web application
+                there are multiple handlers to handle all the different types of requests. </p>
   </body>
 </html>
