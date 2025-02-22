@@ -3,44 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>John | Doe - Week 1</title>
+    <title>Bryan Hernandez Week 2</title>
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <h1>Week 2: Introduction to Go Web Apps</h1>
-    <p>
-      This week, I learned how to set up a basic web server in Go using the
-      `net/http` package.
-    </p>
+        <h1>Week 2 - Web Applications & HTTP</h1>
+        <p>In week 2, we explored how web applications work, focusing on how requests interact with handlers and the role of HTTP.</p>
+        
+        <h2>Client-Server Communication</h2>
+        <p>Web applications rely on request-response cycles where clients send requests to a server, which then processes them and sends responses.</p>
+        
+        <pre><code>// Basic HTTP server in Go
+package main
 
-    <pre>
-      <code>
-        package main
+import (
+    "fmt"
+    "net/http"
+)
 
-        import (
-            "log"
-            "net/http"
-        )
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintln(w, "Hello, world!")
+}
 
-        func home(w http.ResponseWriter, r *http.Request) {
-            w.Write([]byte("Hello from my first Go web app!"))
-        }
-
-        func main() {
-            mux := http.NewServeMux()
-            mux.HandleFunc("/", home)
-
-            log.Println("Server starting on :4000")
-            err := http.ListenAndServe(":4000", mux)
-            if err != nil {
-                log.Fatal(err)
-            }
-        }
-    </code>
-  </pre>
-    <p>
-      I also learned about routing, serving static files, and the importance of
-      a structured project layout.
-    </p>
+func main() {
+    http.HandleFunc("/", handler)
+    http.ListenAndServe(":8080", nil)
+}</code></pre>
   </body>
 </html>

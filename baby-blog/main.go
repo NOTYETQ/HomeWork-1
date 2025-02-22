@@ -25,19 +25,19 @@ func week1Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func week2Handler(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, "./templates/week1.html")
+        http.ServeFile(w, r, "./templates/week2.html")
 }
 
 func week3Handler(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, "./templates/week1.html")
+        http.ServeFile(w, r, "./templates/week3.html")
 }
 
 func week4Handler(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, "./templates/week1.html")
+        http.ServeFile(w, r, "./templates/week4.html")
 }
 
 func week5Handler(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, "./templates/week1.html")
+        http.ServeFile(w, r, "./templates/week5.html")
 }
 
 

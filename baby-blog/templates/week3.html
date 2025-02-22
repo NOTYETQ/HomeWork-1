@@ -3,44 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>John | Doe - Week 1</title>
+    <title>Bryan Hernandez Week 3</title>
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <h1>Week 3: Introduction to Go Web Apps</h1>
-    <p>
-      This week, I learned how to set up a basic web server in Go using the
-      `net/http` package.
-    </p>
-
-    <pre>
-      <code>
-        package main
-
-        import (
-            "log"
-            "net/http"
-        )
-
-        func home(w http.ResponseWriter, r *http.Request) {
-            w.Write([]byte("Hello from my first Go web app!"))
-        }
-
-        func main() {
-            mux := http.NewServeMux()
-            mux.HandleFunc("/", home)
-
-            log.Println("Server starting on :4000")
-            err := http.ListenAndServe(":4000", mux)
-            if err != nil {
-                log.Fatal(err)
-            }
-        }
-    </code>
-  </pre>
-    <p>
-      I also learned about routing, serving static files, and the importance of
-      a structured project layout.
-    </p>
+    <h1>Week 3 - Self-Assessment & Git</h1>
+    <p>This week, we had a self-assessment that involved creating a file directory, setting up Git, writing a simple Go program, and pushing it to GitHub.</p>
+    
+    <h2>Setting up a Repository</h2>
+    <p>We initialized a Git repository, created a simple web server in Go, and pushed it to GitHub.</p>
+    
+    <pre><code>// Initializing a new Git repository
+$ git init
+$ git add .
+$ git commit -m "Initial commit"
+$ git remote add origin https://github.com/user/repository.git
+$ git push -u origin main</code></pre>
   </body>
 </html>

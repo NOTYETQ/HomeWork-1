@@ -3,44 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>John | Doe - Week 1</title>
+    <title>Bryan Hernandez Week 4</title>
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <h1>Week 4: Introduction to Go Web Apps</h1>
-    <p>
-      This week, I learned how to set up a basic web server in Go using the
-      `net/http` package.
-    </p>
+    <h1>Week 4 - Middleware</h1>
+    <p>Middleware in Go acts like a bouncer, controlling the flow of requests and responses in a web application.</p>
+    
+    <h2>Global vs. Specific Middleware</h2>
+    <p>Middleware can be applied globally or to specific handlers in a web server.</p>
+    
+    <pre><code>// Middleware example in Go
+package main
 
-    <pre>
-      <code>
-        package main
+import (
+"fmt"
+"net/http"
+)
 
-        import (
-            "log"
-            "net/http"
-        )
+func middleware(next http.HandlerFunc) http.HandlerFunc {
+return func(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("Middleware executed")
+    next(w, r)
+}
+}
 
-        func home(w http.ResponseWriter, r *http.Request) {
-            w.Write([]byte("Hello from my first Go web app!"))
-        }
+func mainHandler(w http.ResponseWriter, r *http.Request) {
+fmt.Fprintln(w, "Hello, world!")
+}
 
-        func main() {
-            mux := http.NewServeMux()
-            mux.HandleFunc("/", home)
-
-            log.Println("Server starting on :4000")
-            err := http.ListenAndServe(":4000", mux)
-            if err != nil {
-                log.Fatal(err)
-            }
-        }
-    </code>
-  </pre>
-    <p>
-      I also learned about routing, serving static files, and the importance of
-      a structured project layout.
-    </p>
+func main() {
+http.HandleFunc("/", middleware(mainHandler))
+http.ListenAndServe(":8080", nil)
+}</code></pre>
   </body>
 </html>
