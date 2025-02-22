@@ -26,27 +26,84 @@
     <p>Middleware can be applied globally or to specific handlers in a web server.</p>
     
     <pre><code>// Middleware example in Go
-package main
+        package main
 
-import (
-"fmt"
-"net/http"
-)
+        import (
+            "log"
+            "net/http"
+            "time"
+        )
+        
+        // a handles function name 'home'
+        func home(w http.ResponseWriter, r *http.Request) {
+            w.Write([]byte("Hello from Flash"))
+        }
+        
+        // a handler names info(r/info)
+        func info(w http.ResponseWriter, r *http.Request) {
+            w.Write([]byte("Bryan Hernandez"))
+        }
+        
+        func color(w http.ResponseWriter, r *http.Request) {
+            w.Write([]byte("Blue"))
+        }
+        
+        func user(w http.ResponseWriter, r *http.Request) {
+            w.Write([]byte("User Bryan Hernandez"))
+        }
+        
+        
+        
+        func loggingMiddleware(next http.Handler) http.Handler {
+            return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+                start:=time.Now()
+                log.Printf("Timestamp: %s, Method: %s, URL: %s", start.Format(time.RFC3339), r.Method, r.URL.Path)
+                next.ServeHTTP(w, r)
+            })
+         }
+         
+        
+        
+        func adminMiddleware(next http.Handler) http.Handler {
+           return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+               if r.Header.Get("X-Admin") != "true" {
+                   http.Error(w, "Forbidden", http.StatusForbidden)
+                   return
+               }
+               next.ServeHTTP(w, r)
+           })
+        }
+           
+        
+        
+        func main() {
+        
+            // mux is our router
+            mux := http.NewServeMux()
+            // the route pattern/endpoint/URL path
+            mux.HandleFunc("/", home)
+            //loggingMiddleware(mux)
+        
+            mux.Handle("/user", adminMiddleware(http.HandleFunc(user)))
+        
+        
+            mux.HandleFunc("/info", info)
+        
+            mux.HandleFunc("/color", color)
+        
+            log.Print("starting server on :4000")
+        
+            // start a local web server
+            err := http.ListenAndServe(":4000", loggingMiddleware(mux))
+            log.Fatal(err)
+        
+        }</code></pre>
 
-func middleware(next http.HandlerFunc) http.HandlerFunc {
-return func(w http.ResponseWriter, r *http.Request) {
-    fmt.Println("Middleware executed")
-    next(w, r)
-}
-}
-
-func mainHandler(w http.ResponseWriter, r *http.Request) {
-fmt.Fprintln(w, "Hello, world!")
-}
-
-func main() {
-http.HandleFunc("/", middleware(mainHandler))
-http.ListenAndServe(":8080", nil)
-}</code></pre>
+        <p>
+            In the code above one can see how there are two middlewares. One being global(loggingMiddleware)
+            and the other being more specific(adminMiddleware). The loggingMiddleware is global because it 
+            intercepts every request that comes in the server. On the other hand the adminMiddleware is more
+            specific because it only interceptsthe requests that are trying to reach the user handler
+          </p>
   </body>
 </html>
